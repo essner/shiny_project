@@ -206,7 +206,8 @@ server = function(input, output) {
   output$correl_anthro_1 = renderPlot({
     # clean data
     rownames(dist_data) = dist_data[, 1]
-    correl_data = dist_data %>% select(.,-player, -position,-contains("NCAA"))
+    correl_data = dist_data %>% select(.,-player, -position,-contains("NCAA")) %>% 
+      mutate(.,sprint = -sprint,agility = -agility)
     temp = correl_data %>% select(., 8:18, 1:7)
     temp_names = colnames(temp)
     temp_names = gsub("NBA_", "", temp_names)
@@ -230,7 +231,8 @@ server = function(input, output) {
   output$correl_anthro_2 = renderPlot({
     # clean data
     rownames(dist_data) = dist_data[, 1]
-    correl_data = dist_data %>% select(.,-player, -position,-contains("NBA"))
+    correl_data = dist_data %>% select(.,-player, -position,-contains("NBA")) %>% 
+      mutate(.,sprint = -sprint,agility = -agility)
     temp = correl_data %>% select(., 8:10, 12, 13, 11, 14, 16, 15, 17:18, 1:7)
     temp_names = colnames(temp)
     temp_names = gsub("NCAA_", "", temp_names)
@@ -250,6 +252,7 @@ server = function(input, output) {
   })
   
   output$scatter = renderPlot({
+    dist_data = dist_data %>% mutate(.,sprint = -sprint,agility = -agility)
     g1 = ggplot(data = dist_data, aes(
       x = !!as.symbol(input$x_input),
       y = !!as.symbol(input$y_input)

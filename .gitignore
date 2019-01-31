@@ -39,8 +39,8 @@ Thumbs.db
 # Others #
 ######################
 *.csv
-
-
+rsconnect
+.Rhistory
 
 
 
